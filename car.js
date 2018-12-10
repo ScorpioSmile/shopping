@@ -32,12 +32,13 @@ var json = [
 var n = 0;
 var lock = true;
 $("#clear").prop("disabled",true);
+$("#remove").prop("disabled",true);
 $("#all").prop("disabled",true);
 /*创建*/
-$("#btn").on("click", function(){
+$("#add").on("click", function(){
 	if(lock){
 		lock = false;
-		$("#btn").prop("disabled",true);
+		$("#add").prop("disabled",true);
 		$("#clear").prop("disabled",false);
 		$("#all").prop("disabled",false);
 		for(var i = 0; i < json.length; i++){
@@ -77,6 +78,7 @@ $("#btn").on("click", function(){
 			}else{
 				$("td input[type='checkbox']").prop("checked",false);
 			}
+			getPitch();
 			getAllToatl();
 		});
 
@@ -87,6 +89,7 @@ $("#btn").on("click", function(){
 			}else{
 				n--;
 			}
+			getPitch();
 			getAllToatl();
 			if(n == $("td input[type='checkbox']").length){
 				$("#all").prop("checked",true);
@@ -123,11 +126,12 @@ function getAllToatl(){
 	$(".totals").html(sums);
 };
 
-/*清除*/
+/*清空*/
 $("#clear").on("click",function (){
-	$("tbody").html("");
-	$(".totals").html("0");
-	$("#btn").prop("disabled",false);
+	$("tbody").empty();
+	getToatl();
+	$("#add").prop("disabled",false);
+	$("#remove").prop("disabled",true);
 	$("#clear").prop("disabled",true);
 	$("#all").prop({
 		disabled: true,
@@ -135,3 +139,19 @@ $("#clear").on("click",function (){
 	});
 	lock = true;
 });
+
+/*删除选中项*/
+$("#remove").on("click",function (){
+	var del = confirm("确认删除商品，该行为不可撤销");
+	if(del){
+		$("td input[type='checkbox']:checked").each(function(i,val){
+			$(this).parents("tr").remove();
+		});
+		getToatl();
+	};
+});
+
+/*获取选中的个数*/
+function getPitch(){
+	$("td input[type='checkbox']:checked").length > 0 ? $("#remove").prop("disabled",false) : $("#remove").prop("disabled",true);
+};
