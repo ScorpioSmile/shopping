@@ -91,7 +91,7 @@ $("#add").on("click", function(){
 			}
 			getPitch();
 			getAllToatl();
-			if(n == $("td input[type='checkbox']").length){
+			if($("td input[type='checkbox']:checked").length == $("td input[type='checkbox']").length){
 				$("#all").prop("checked",true);
 			}else{
 				$("#all").prop("checked",false);
@@ -102,6 +102,7 @@ $("#add").on("click", function(){
 			var del = confirm("确认删除商品，该行为不可撤销");
 			if(del){
 				$(this).parents("tr").remove();
+				getPitch();
 				getAllToatl();
 			};
 		});
@@ -129,7 +130,8 @@ function getAllToatl(){
 /*清空*/
 $("#clear").on("click",function (){
 	$("tbody").empty();
-	getToatl();
+	getPitch();
+	getAllToatl();
 	$("#add").prop("disabled",false);
 	$("#remove").prop("disabled",true);
 	$("#clear").prop("disabled",true);
@@ -147,11 +149,14 @@ $("#remove").on("click",function (){
 		$("td input[type='checkbox']:checked").each(function(i,val){
 			$(this).parents("tr").remove();
 		});
-		getToatl();
+		$("#all").prop("checked", false);
+		getPitch();
+		getAllToatl();
 	};
 });
 
 /*获取选中的个数*/
 function getPitch(){
 	$("td input[type='checkbox']:checked").length > 0 ? $("#remove").prop("disabled",false) : $("#remove").prop("disabled",true);
+	$(".checkeds").text($("td input[type='checkbox']:checked").length);
 };
