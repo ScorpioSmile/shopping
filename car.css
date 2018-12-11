@@ -36,3 +36,8 @@ p span {
 	color: red;
 	font-weight: bold;
 }
+.checkeds {
+	font-size: 18px;
+	color: black;
+	padding: 0 3px;
+}
